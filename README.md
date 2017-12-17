@@ -20,4 +20,4 @@ the number of total tickets that were entered, and whether or not we won:
 
 ## How to Use
 
-Run the R code to produce a report that calculates the probability of the observed outcome.
+Run the Rmd code to produce a md report that calculates the probability of the observed outcome.
