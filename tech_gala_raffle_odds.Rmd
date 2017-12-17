@@ -1,37 +1,46 @@
 ---
 title: "Raffle Simulation"
 author: "Justin Meyer"
-date: "December 11, 2017"
+date: "December 16, 2017"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
 # Description of the analysis
 
-At the recent Tech Gala in Madison, Wisconsin there was a raffle for a number
-of items. We bought 10 tickets and entered to win nine of the items (one ticket 
-apparently went missing). We won five of the nine items that we tried to win.
+At the recent Tech Gala in Madison, Wisconsin there was a raffle for a number of items. Sarah and I bought a total of 10 tickets and entered to win nine of the items (one ticket apparently went missing). We won five of the nine items that we tried to win.
 
 This seemed like a very unlikely outcome so I got the data from the raffle 
 organizer. Here are the items that we entered, the number of tickets we entered,
 the number of total tickets that were entered, and whether or not we won:
 
-Pinecone 1/8 (won)
-Card 1/2 (didn't)
-Candle 1/9 (didn't)
-Cutting boards [5 of these] 1/24 (didn't)
-Studio class 1/21 (didn't)
-Gift card 1/7 (won)
-Hammer [2 of these] 1/11 (won)
-Stand [4 of these] 1/37 (won)
-Cards 1/1 (won) # What to do with this? 1/1 makes the odds infinite which makes the overall odds infinite.
-
-The following code simulates the raffle one million times.
+* Pinecone 1/8 (won)  
+* Card 1/2 (didn't win)  
+* Candle 1/9 (didn't win)  
+* Cutting boards [5 of this item were available] 1/24 (didn't win)  
+* Studio class 1/21 (didn't win)  
+* Gift card 1/7 (won)  
+* Hammer [2 of this item were available] 1/11 (won one)  
+* Stand [4 of this item were available] 1/37 (won one)  
+* Cards 1/1 (won)  
 
 # Simulate the raffle
+
+Set the number of times to simulate the raffle:
+
+```{r, echo = TRUE}
+
+options(scipen = 999) # Turn off scientific notation
+repeats <- 100000
+
+```
+
+Simulate the raffle `r repeats` times:
 
 ```{r, echo = TRUE}
 
@@ -50,7 +59,7 @@ cards <- c(1)
 items_won_vector <- vector("numeric")
 
 # Simulation loop
-for(i in 1:1000000){
+for(i in 1:repeats){
         
         # Determine if each item was won
         pinecone_won <- sample(pinecone, 1)
@@ -71,8 +80,8 @@ for(i in 1:1000000){
                          cards_won)
         
         # Report progress of simulation
-        print(paste0("test: ", i))
-        print(items_won)
+        # print(paste0("test: ", i))
+        # print(items_won)
         
         # Add number of items won to vector
         items_won_vector[i] <- items_won
@@ -98,7 +107,7 @@ summary(items_won_vector)
 
 ```
 
-### Count of items won
+### Count of items won across the `r repeats` simulations
 
 ```{r, echo = TRUE}
 
@@ -107,7 +116,7 @@ table(items_won_vector)
 
 ```
 
-# Histogram of the count of items won
+# Histogram of the count of items won across the `r repeats` simulations
 
 ```{r echo = TRUE}
 
@@ -115,14 +124,15 @@ hist(items_won_vector)
 
 ```
 
-### Percent of items won
+### Percent of items won across the `r repeats` simulations
+
+__We should expect the observed outcome (winning five of the nine raffles we entered) to happen only about `r round(((length(items_won_vector[items_won_vector == 5])/length(items_won_vector))*100), 1)`% of the time:__
 
 ```{r, echo = TRUE}
 
 # Percent of number of items won
 temp <- table(items_won_vector)
 prop.table(temp)
-
 
 ```
 
