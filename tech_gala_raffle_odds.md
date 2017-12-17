@@ -1,51 +1,33 @@
----
-title: "Raffle Simulation"
-author: "Justin Meyer"
-date: "December 16, 2017"
-output: 
-  md_document:
-    variant: markdown_github
----
-
-```{r setup, include=FALSE}
-
-knitr::opts_chunk$set(echo = TRUE)
-
-```
-
-# Description of the analysis
+Description of the analysis
+===========================
 
 At the recent Tech Gala in Madison, Wisconsin there was a raffle for a number of items. Sarah and I bought a total of 10 tickets and entered to win nine of the items (one ticket apparently went missing). We won five of the nine items that we tried to win.
 
-This seemed like a very unlikely outcome so I got the data from the raffle 
-organizer. Here are the items that we entered, the number of tickets we entered,
-the number of total tickets that were entered, and whether or not we won:
+This seemed like a very unlikely outcome so I got the data from the raffle organizer. Here are the items that we entered, the number of tickets we entered, the number of total tickets that were entered, and whether or not we won:
 
-* Pinecone 1/8 (won)  
-* Card 1/2 (didn't win)  
-* Candle 1/9 (didn't win)  
-* Cutting boards [5 of this item were available] 1/24 (didn't win)  
-* Studio class 1/21 (didn't win)  
-* Gift card 1/7 (won)  
-* Hammer [2 of this item were available] 1/11 (won one)  
-* Stand [4 of this item were available] 1/37 (won one)  
-* Cards 1/1 (won)  
+-   Pinecone 1/8 (won)
+-   Card 1/2 (didn't win)
+-   Candle 1/9 (didn't win)
+-   Cutting boards \[5 of this item were available\] 1/24 (didn't win)
+-   Studio class 1/21 (didn't win)
+-   Gift card 1/7 (won)
+-   Hammer \[2 of this item were available\] 1/11 (won one)
+-   Stand \[4 of this item were available\] 1/37 (won one)
+-   Cards 1/1 (won)
 
-# Simulate the raffle
+Simulate the raffle
+===================
 
 Set the number of times to simulate the raffle:
 
-```{r, echo = TRUE}
-
+``` r
 options(scipen = 999) # Turn off scientific notation
 repeats <- 100000
-
 ```
 
-Simulate the raffle `r repeats` times:
+Simulate the raffle 100000 times:
 
-```{r, echo = TRUE}
-
+``` r
 # Create source data
 pinecone <- c(1, rep(0, 7))
 card <- c(1, 0)
@@ -97,55 +79,58 @@ for(i in 1:repeats){
                 cards_won)
         
         }
-
 ```
 
 ### Summary statistics
 
-```{r, echo = TRUE}
-
+``` r
 # Summary stats
 summary(items_won_vector)
-
 ```
 
-### Count of items won across the `r repeats` simulations
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##   1.000   2.000   2.000   2.421   3.000   7.000
 
-```{r, echo = TRUE}
+### Count of items won across the 100000 simulations
 
+``` r
 # Count of number of items won
 table(items_won_vector)
-
 ```
 
-# Histogram of the count of items won across the `r repeats` simulations
+    ## items_won_vector
+    ##     1     2     3     4     5     6     7 
+    ## 18569 38353 28823 11376  2474   372    33
 
-```{r echo = TRUE}
+Histogram of the count of items won across the 100000 simulations
+=================================================================
 
+``` r
 hist(items_won_vector)
-
 ```
 
-### Percent of items won across the `r repeats` simulations
+![](tech_gala_raffle_odds_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
-__We should expect the observed outcome (winning five of the nine raffles we entered) to happen only about `r round(((length(items_won_vector[items_won_vector == 5])/length(items_won_vector))*100), 1)`% of the time:__
+### Percent of items won across the 100000 simulations
 
-```{r, echo = TRUE}
+**We should expect the observed outcome (winning five of the nine raffles we entered) to happen only about 2.5% of the time:**
 
+``` r
 # Percent of number of items won
 temp <- table(items_won_vector)
 prop.table(temp)
-
 ```
 
-# Deterministic method
+    ## items_won_vector
+    ##       1       2       3       4       5       6       7 
+    ## 0.18569 0.38353 0.28823 0.11376 0.02474 0.00372 0.00033
 
-While I created the above simulation my friend Carl approached the problem 
-from a different direction. He calculated the odds of the outcome and 
-came up with a very similar result:
+Deterministic method
+====================
 
-```{r, echo = TRUE}
+While I created the above simulation my friend Carl approached the problem from a different direction. He calculated the odds of the outcome and came up with a very similar result:
 
+``` r
 winProbs <- c(1/8,
               1/2,
               1/9,
@@ -162,13 +147,12 @@ allPossible = combn(9,5)
 #Find joint probability of each outcome of 5 ... don't forget probabilities of losing the 4 that are not won.
 probs <- sapply(1:dim(allPossible)[2], function(x) prod(winProbs[allPossible[,x]],
                                                         1-winProbs[-allPossible[,x]]))
-
 ```
 
 ### Probability of winning any five items:
 
-```{r, echo = TRUE}
-
+``` r
 sum(probs)
-
 ```
+
+    ## [1] 0.02762106
