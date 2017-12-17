@@ -81,17 +81,15 @@ for(i in 1:repeats){
         }
 ```
 
-### Summary statistics
+### Count of items won across the 100000 simulations
 
 ``` r
-# Summary stats
+# Summary stats about number of items won
 summary(items_won_vector)
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##   1.000   2.000   2.000   2.421   3.000   7.000
-
-### Count of items won across the 100000 simulations
+    ##   1.000   2.000   2.000   2.425   3.000   7.000
 
 ``` r
 # Count of number of items won
@@ -100,16 +98,7 @@ table(items_won_vector)
 
     ## items_won_vector
     ##     1     2     3     4     5     6     7 
-    ## 18569 38353 28823 11376  2474   372    33
-
-Histogram of the count of items won across the 100000 simulations
-=================================================================
-
-``` r
-hist(items_won_vector)
-```
-
-![](tech_gala_raffle_odds_files/figure-markdown_github/unnamed-chunk-5-1.png)
+    ## 18409 38148 29296 11259  2522   333    33
 
 ### Percent of items won across the 100000 simulations
 
@@ -123,7 +112,7 @@ prop.table(temp)
 
     ## items_won_vector
     ##       1       2       3       4       5       6       7 
-    ## 0.18569 0.38353 0.28823 0.11376 0.02474 0.00372 0.00033
+    ## 0.18409 0.38148 0.29296 0.11259 0.02522 0.00333 0.00033
 
 Deterministic method
 ====================

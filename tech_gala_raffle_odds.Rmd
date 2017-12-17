@@ -100,29 +100,15 @@ for(i in 1:repeats){
 
 ```
 
-### Summary statistics
-
-```{r, echo = TRUE}
-
-# Summary stats
-summary(items_won_vector)
-
-```
-
 ### Count of items won across the `r repeats` simulations
 
 ```{r, echo = TRUE}
 
+# Summary stats about number of items won
+summary(items_won_vector)
+
 # Count of number of items won
 table(items_won_vector)
-
-```
-
-# Histogram of the count of items won across the `r repeats` simulations
-
-```{r echo = TRUE}
-
-hist(items_won_vector)
 
 ```
 
